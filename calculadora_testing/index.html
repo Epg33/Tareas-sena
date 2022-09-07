@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="firstbox">
+      <div class="box">
+        <label for="number1">numero 1</label>
+        <input type="text" class="element_number" id="number1" />
+      </div>
+      <div class="box">
+        <label for="number2">numero 2</label>
+        <input type="text" class="element_number" id="number2" />
+      </div>
+    </div>
+    <div class="operadorbox">
+      <label for="operator">operador</label>
+      <input type="text" name="" class="element_number" id="operator" />
+    </div>
+    <button onclick="saveValues()" class="ButtonOperation">calcular</button>
+    <label>
+      <p>Resultado:</p>
+      <input type="text" class="result_numbers" readonly id="result" />
+    </label>
+    <script src="index.js"></script>
+  </body>
+</html>
