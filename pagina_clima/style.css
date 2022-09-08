@@ -1,0 +1,73 @@
+*{
+  font-family: 'Noto Sans', sans-serif;
+  user-select: none;
+}
+
+body {
+	background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+	animation: gradient 15s ease infinite;
+	height: 100vh;
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+h1{
+  font-size: 2rem;
+  background: rgba(255, 255, 255, 0);
+}
+
+.nav{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgba(255, 255, 255, 0);
+}
+
+img{
+  height: 10%;
+  width: 10%;
+  background: rgba(255, 255, 255, 0);
+}
+
+.elClima{
+  background: rgba(255, 255, 255, 0);
+  border-radius: 10px;
+  height: 8%;
+  width: 12%;
+  border: solid 2px #143539;
+  outline: #04676e;
+}
+
+.elClima:hover{
+  background-color: #04676e; 
+}
+
+#ciudad{
+  background: rgba(255, 255, 255, 0);
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: solid 2px #143539;
+  font-size: 1.2rem;
+  font-weight:900 ;
+  outline: none;
+}
+
+sup{
+  background: rgba(255, 255, 255, 0);
+}
+
+#div1{
+  font-size: 1.2rem;
+  font-weight:900 ;
+}
