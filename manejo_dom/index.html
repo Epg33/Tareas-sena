@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>From here you can customize the color and boreders of your card</h1>
+
+    <div class='content'>
+        <div class="buttons">
+            <input class="color"  id="color" type="color" />
+            <button id="change" class="change">Change color</button>
+            <button class="pixel" onclick="disminuir()">-</button>
+            <p>Tamaño en pixeles</p>
+            <button class="pixel" onclick="aumentar()">+</button>
+            <p id="pixels">10px</p>
+        </div>
+        <main class="main-content">
+            <section class="background" id="background"></section>
+            <section class="info">
+                <h2 class="title">Title</h2>
+                <p class="p-info">This sould be a littel description about personal info</p>
+                <div class="save"></div>
+                <button class="cv">My CV</button>
+                <div class="folder">
+                    <img src="./images/folder.png" class='image' alt="" srcset="">
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
