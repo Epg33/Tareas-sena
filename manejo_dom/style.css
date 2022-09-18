@@ -31,6 +31,7 @@ body {
     width: 30vw;
     margin: 0;
     height: 50vh;
+    border-radius: 0px;
 }
 
 .background {
