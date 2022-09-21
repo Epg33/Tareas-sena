@@ -44,6 +44,7 @@ alter table descuento add constraint fk_id_ticket foreign key (id_ticket) refere
 alter table checkOut add constraint fk_id_ticket_2 foreign key (id_ticket) references ticket(id_ticket);
 alter table factura add constraint fk_id_ticket_3 foreign key (id_ticket) references ticket(id_ticket);
 alter table factura add constraint fk_id_check_out foreign key (id_check_out) references checkOut(id_check_out);
+alter table factura add constraint fk_descuento foreign key (descuento) references descuento(id_descuento);
 
 insert tarifa(id_tarifa, tipo_vehiculo, costo_tarifa, recargo_nocturno) values (1, "auto", 2500, 0);
 insert tarifa(id_tarifa, tipo_vehiculo, costo_tarifa, recargo_nocturno) values (2, "auto", 2500, 1000);
@@ -85,9 +86,9 @@ insert descuento(id_descuento, descuento, id_ticket) values(15, 4500, 15);
 insert descuento(id_descuento, descuento, id_ticket) values(16, 0, 16);
 
 insert checkOut(id_check_out, hora_entrada, hora_salida, id_ticket) values(1, "2021-08-15 12:00:00", "2021-08-15 3:00:00", 1);
-insert checkOut(id_check_out, hora_entrada, hora_salida, id_ticket) values(2, "2021-09-12 12:00:00", "2021-09-12 3:00:00", 2);
-insert checkOut(id_check_out, hora_entrada, hora_salida, id_ticket) values(3, "2021-08-01 12:00:00", "2021-08-01 6:00:00", 3);
-insert checkOut(id_check_out, hora_entrada, hora_salida, id_ticket) values(4, "2021-09-18 12:00:00", "2021-09-18 3:00:00", 4);
+insert checkOut(id_check_out, hora_entrada, hora_salida, id_ticket) values(2, "2021-09-12 12:00:00", "2021-09-12 6:00:00", 2);
+insert checkOut(id_check_out, hora_entrada, hora_salida, id_ticket) values(3, "2021-08-01 12:00:00", "2021-08-01 3:00:00", 3);
+insert checkOut(id_check_out, hora_entrada, hora_salida, id_ticket) values(4, "2021-09-18 12:00:00", "2021-09-18 6:00:00", 4);
 insert checkOut(id_check_out, hora_entrada, hora_salida, id_ticket) values(5, "2021-08-24 20:00:00", "2021-08-24 23:00:00", 5);
 insert checkOut(id_check_out, hora_entrada, hora_salida, id_ticket) values(6, "2021-09-06 20:00:00", "2021-09-06 23:00:00", 6);
 insert checkOut(id_check_out, hora_entrada, hora_salida, id_ticket) values(7, "2021-08-30 20:00:00", "2021-08-30 23:00:00", 7);
@@ -101,4 +102,19 @@ insert checkOut(id_check_out, hora_entrada, hora_salida, id_ticket) values(14, "
 insert checkOut(id_check_out, hora_entrada, hora_salida, id_ticket) values(15, "2021-08-26 20:00:00", "2021-08-26 23:00:00", 15);
 insert checkOut(id_check_out, hora_entrada, hora_salida, id_ticket) values(16, "2021-09-17 20:00:00", "2021-09-17 23:00:00", 16);
 
-insert factura(id_factura, sub_total, impuestos, descuento, total_pago, id_ticket, id_check_out) values(1, );
+insert factura(id_factura, sub_total, impuestos, descuento, total_pago, id_ticket, id_check_out) values(1, 7500, 1500, 1, 1500, 1, 1);
+insert factura(id_factura, sub_total, impuestos, descuento, total_pago, id_ticket, id_check_out) values(2, 15000, 2850, 2, 17850, 2, 2);
+insert factura(id_factura, sub_total, impuestos, descuento, total_pago, id_ticket, id_check_out) values(3, 7500, 1500, 3, 1500, 3, 3);
+insert factura(id_factura, sub_total, impuestos, descuento, total_pago, id_ticket, id_check_out) values(4, 15000, 2850, 4, 17850, 4, 4);
+insert factura(id_factura, sub_total, impuestos, descuento, total_pago, id_ticket, id_check_out) values(5, 10500, 1995, 5, 6995, 5, 5);
+insert factura(id_factura, sub_total, impuestos, descuento, total_pago, id_ticket, id_check_out) values(6, 10500, 1995, 6, 12495, 6, 6);
+insert factura(id_factura, sub_total, impuestos, descuento, total_pago, id_ticket, id_check_out) values(7, 10500, 1995, 7, 6995, 7, 7);
+insert factura(id_factura, sub_total, impuestos, descuento, total_pago, id_ticket, id_check_out) values(8, 10500, 1995, 8, 12495, 8, 8);
+insert factura(id_factura, sub_total, impuestos, descuento, total_pago, id_ticket, id_check_out) values(9, 4500, 855, 9, 855, 9, 9);
+insert factura(id_factura, sub_total, impuestos, descuento, total_pago, id_ticket, id_check_out) values(10, 9000, 1710, 10, 10710, 10, 10);
+insert factura(id_factura, sub_total, impuestos, descuento, total_pago, id_ticket, id_check_out) values(11, 4500, 855, 11, 855, 11, 11);
+insert factura(id_factura, sub_total, impuestos, descuento, total_pago, id_ticket, id_check_out) values(12, 9000, 1710, 12, 10710, 12, 12);
+insert factura(id_factura, sub_total, impuestos, descuento, total_pago, id_ticket, id_check_out) values(13, 7500, 1500, 13, 4500, 13, 13);
+insert factura(id_factura, sub_total, impuestos, descuento, total_pago, id_ticket, id_check_out) values(14, 7500, 1500, 14, 9000, 14, 14);
+insert factura(id_factura, sub_total, impuestos, descuento, total_pago, id_ticket, id_check_out) values(15, 7500, 1500, 15, 4500, 15, 15);
+insert factura(id_factura, sub_total, impuestos, descuento, total_pago, id_ticket, id_check_out) values(16, 7500, 1500, 16, 9000, 16, 16);
