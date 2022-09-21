@@ -85,18 +85,18 @@ insert descuento(id_descuento, descuento, id_ticket) values(14, 0, 14);
 insert descuento(id_descuento, descuento, id_ticket) values(15, 4500, 15);
 insert descuento(id_descuento, descuento, id_ticket) values(16, 0, 16);
 
-insert checkOut(id_check_out, hora_entrada, hora_salida, id_ticket) values(1, "2021-08-15 12:00:00", "2021-08-15 3:00:00", 1);
-insert checkOut(id_check_out, hora_entrada, hora_salida, id_ticket) values(2, "2021-09-12 12:00:00", "2021-09-12 6:00:00", 2);
-insert checkOut(id_check_out, hora_entrada, hora_salida, id_ticket) values(3, "2021-08-01 12:00:00", "2021-08-01 3:00:00", 3);
-insert checkOut(id_check_out, hora_entrada, hora_salida, id_ticket) values(4, "2021-09-18 12:00:00", "2021-09-18 6:00:00", 4);
+insert checkOut(id_check_out, hora_entrada, hora_salida, id_ticket) values(1, "2021-08-15 1:00:00", "2021-08-15 4:00:00", 1);
+insert checkOut(id_check_out, hora_entrada, hora_salida, id_ticket) values(2, "2021-09-12 1:00:00", "2021-09-12 7:00:00", 2);
+insert checkOut(id_check_out, hora_entrada, hora_salida, id_ticket) values(3, "2021-08-01 1:00:00", "2021-08-01 4:00:00", 3);
+insert checkOut(id_check_out, hora_entrada, hora_salida, id_ticket) values(4, "2021-09-18 1:00:00", "2021-09-18 7:00:00", 4);
 insert checkOut(id_check_out, hora_entrada, hora_salida, id_ticket) values(5, "2021-08-24 20:00:00", "2021-08-24 23:00:00", 5);
 insert checkOut(id_check_out, hora_entrada, hora_salida, id_ticket) values(6, "2021-09-06 20:00:00", "2021-09-06 23:00:00", 6);
 insert checkOut(id_check_out, hora_entrada, hora_salida, id_ticket) values(7, "2021-08-30 20:00:00", "2021-08-30 23:00:00", 7);
 insert checkOut(id_check_out, hora_entrada, hora_salida, id_ticket) values(8, "2021-09-15 20:00:00", "2021-09-15 23:00:00", 8);
-insert checkOut(id_check_out, hora_entrada, hora_salida, id_ticket) values(9, "2021-08-20 12:00:00", "2021-08-20 3:00:00", 9);
-insert checkOut(id_check_out, hora_entrada, hora_salida, id_ticket) values(10, "2021-09-05 12:00:00", "2021-09-05 6:00:00", 10);
-insert checkOut(id_check_out, hora_entrada, hora_salida, id_ticket) values(11, "2021-08-07 12:00:00", "2021-08-07 3:00:00", 11);
-insert checkOut(id_check_out, hora_entrada, hora_salida, id_ticket) values(12, "2021-09-30 12:00:00", "2021-09-30 6:00:00", 12);
+insert checkOut(id_check_out, hora_entrada, hora_salida, id_ticket) values(9, "2021-08-20 1:00:00", "2021-08-20 4:00:00", 9);
+insert checkOut(id_check_out, hora_entrada, hora_salida, id_ticket) values(10, "2021-09-05 1:00:00", "2021-09-05 7:00:00", 10);
+insert checkOut(id_check_out, hora_entrada, hora_salida, id_ticket) values(11, "2021-08-07 1:00:00", "2021-08-07 4:00:00", 11);
+insert checkOut(id_check_out, hora_entrada, hora_salida, id_ticket) values(12, "2021-09-30 1:00:00", "2021-09-30 7:00:00", 12);
 insert checkOut(id_check_out, hora_entrada, hora_salida, id_ticket) values(13, "2021-08-16 20:00:00", "2021-08-16 23:00:00", 13);
 insert checkOut(id_check_out, hora_entrada, hora_salida, id_ticket) values(14, "2021-09-04 20:00:00", "2021-09-04 23:00:00", 14);
 insert checkOut(id_check_out, hora_entrada, hora_salida, id_ticket) values(15, "2021-08-26 20:00:00", "2021-08-26 23:00:00", 15);
@@ -118,3 +118,9 @@ insert factura(id_factura, sub_total, impuestos, descuento, total_pago, id_ticke
 insert factura(id_factura, sub_total, impuestos, descuento, total_pago, id_ticket, id_check_out) values(14, 7500, 1500, 14, 9000, 14, 14);
 insert factura(id_factura, sub_total, impuestos, descuento, total_pago, id_ticket, id_check_out) values(15, 7500, 1500, 15, 4500, 15, 15);
 insert factura(id_factura, sub_total, impuestos, descuento, total_pago, id_ticket, id_check_out) values(16, 7500, 1500, 16, 9000, 16, 16);
+
+select tipo_vehiculo, costo_tarifa, recargo_nocturno from tarifa;
+select ticket.placa_vehiculo as vehiculo, ticket.fecha_entrada as "fecha de entrada" from ticket inner join checkOut where checkOut.id_ticket=ticket.id_ticket and month(checkOut.hora_entrada)=08 and month(checkOut.hora_salida)=08;
+select ticket.placa_vehiculo as vehiculo, ticket.fecha_entrada as "fecha de entrada", checkOut.hora_entrada, checkOut.hora_salida  from ticket inner join checkOut where checkOut.id_ticket=ticket.id_ticket and hour(checkOut.hora_salida)-hour(checkOut.hora_entrada)>=5;
+select ticket.placa_vehiculo as vehiculo, ticket.fecha_entrada as "fecha de entrada", checkOut.hora_entrada, checkOut.hora_salida, factura.total_pago from ticket inner join checkOut inner join factura where checkOut.id_ticket=ticket.id_ticket and factura.id_ticket=ticket.id_ticket and factura.total_pago>= 20000;
+select ticket.placa_vehiculo as vehiculo, ticket.fecha_entrada as "fecha de entrada", checkOut.hora_entrada, checkOut.hora_salida, hour(checkOut.hora_salida)-hour(checkOut.hora_entrada) as "Horas de estadia",factura.total_pago from ticket inner join checkOut inner join factura where checkOut.id_ticket=ticket.id_ticket and factura.id_ticket=ticket.id_ticket and month(checkOut.hora_entrada)=09 and month(checkOut.hora_salida)=09;
