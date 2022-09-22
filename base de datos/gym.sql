@@ -13,7 +13,7 @@ create table cliente (
     direccion varchar(50)  not null,
     telefono varchar(10) not null, 
     id_membresia varchar(10) not null,
-    /*foreign key (id_membresia) references membresia(id_membresia)*/
+    foreign key (id_membresia) references membresia(id_membresia)
 );
 
 create table instructores (
@@ -39,9 +39,9 @@ create table reserva (
     id_cliente varchar(10) not null,
     id_instructor varchar(10) not null,
     id_maquina varchar(10) not null,
-    id_horario varchar(2) not null
-    /*foreign key (id_cliente) references cliente(id_cliente),
+    id_horario varchar(2) not null,
+    foreign key (id_cliente) references cliente(id_cliente),
     foreign key (id_instructor) references instructores(id_instructor),
     foreign key (id_maquina) references maquinas(id_maquina),
-    foreign key (id_horario) references horario(id_horario)*/
+    foreign key (id_horario) references horario(id_horario)
 );
