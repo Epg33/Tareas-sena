@@ -15,11 +15,11 @@ Create Table Usuario (
 	FechaIngreso Datetime default getdate()
 );
 GO
-Insert Into Usuario (ID_Usuario,Nombres,Telefono,Correo,Ciudad) Values ('1','Moises pineda rubia','3232434412','soygay@gmail.com','Armenia');
-Insert Into Usuario (ID_Usuario,Nombres,Telefono,Correo,Ciudad) Values ('2','Ethiem alex','3112324415','soyunsimp@gmail.com','Armenia');
-Insert Into Usuario (ID_Usuario,Nombres,Telefono,Correo,Ciudad) Values ('3','Gian luis alfonso','348586994','soyunenano@gmail.com','Armenia');
-Insert Into Usuario (ID_Usuario,Nombres,Telefono,Correo,Ciudad) Values ('4','Daniel genshi gomes inpact','3736485094','soygenshíplayer@gmail.com','Armenia');
-Insert Into Usuario (ID_Usuario,Nombres,Telefono,Correo,Ciudad) Values ('5','brayan stiven medina','3184852213','soylolplayer@gmail.com','Armenia');
+Insert Into Usuario (ID_Usuario,Nombres,Telefono,Correo,Ciudad) Values ('1','Moises pineda ','3232434412','mois@gmail.com','Armenia');
+Insert Into Usuario (ID_Usuario,Nombres,Telefono,Correo,Ciudad) Values ('2','Ethiem alex','3112324415','eth@gmail.com','Armenia');
+Insert Into Usuario (ID_Usuario,Nombres,Telefono,Correo,Ciudad) Values ('3','Gian carlos ','348586994','gian@gmail.com','Armenia');
+Insert Into Usuario (ID_Usuario,Nombres,Telefono,Correo,Ciudad) Values ('4','Daniel  gomes ','3736485094','dani@gmail.com','Armenia');
+Insert Into Usuario (ID_Usuario,Nombres,Telefono,Correo,Ciudad) Values ('5','brayan stiven medina','3184852213','bry@gmail.com','Armenia');
 
 GO
 Create procedure usp_registrar (
