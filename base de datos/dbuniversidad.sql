@@ -260,6 +260,71 @@ as
 	end
 go
 
+--Detalles materia
+
+go
+create procedure USP_RegistrarDetalle
+	@Id_Est int,
+	@Id_Mat nvarchar(4),
+	@Por70 float,
+	@por30 float,
+	@total float
+as
+	begin transaction TX
+	insert into DETALLE_MAT (Id_Est,Id_Mat,Por70,por30,total) values (@Id_Est,@Id_Mat,@Por70,@por30,@total);
+	if @@ERROR >0
+	begin 
+	rollback transaction TX
+	select 'Hubo Error' as Respuesta
+	end
+	else
+	begin 
+	commit transaction TX
+	select 'Resgistro exitoso' as Respuesta
+	end
+go
+
+go 
+create procedure USP_ActualizarDetalle
+	@Id_Det int;
+	@Id_Est int,
+	@Id_Mat nvarchar(4),
+	@Por70 float,
+	@por30 float,
+	@total float
+as
+	begin transaction TX
+	update Detalle_Mat set Id_Mat=@Id_Mat, Por70=@Por70, por30=@por30, total=@total where Id_Det=@Id_Det; 
+	if @@ERROR >0
+	begin 
+	rollback transaction TX
+	select 'Hubo Error' as Respuesta
+	end
+	else
+	begin 
+	commit transaction TX
+	select 'Actualizacion exitosa' as Respuesta
+	end
+go
+
+go 
+create procedure USP_EliminarDetalle
+	@Id_Det int
+as
+	begin transaction TX
+	delete from Detalle_Mat where Id_Det=@Id_det;
+	if @@ERROR >0
+	begin 
+	rollback transaction TX
+	select 'Hubo Error' as Respuesta
+	end
+	else
+	begin 
+	commit transaction TX
+	select 'Eliminacion exitosa' as Respuesta
+	end
+go
+
 create procedure usp_UActualizarTotal
 AS
 BEGIN TRANSACTION TX
