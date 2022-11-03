@@ -197,6 +197,69 @@ as
 	end
 go
 
+--detalle materia
+
+go
+create procedure USP_RegistrarMateria
+	@Nombre nvarchar(50),
+	@Cred int,
+	@Durac int,
+	@Semes int
+as
+	begin transaction TX 
+	insert into MATERIA (Nombre,Cred,Durac,Semes) values (@Nombre,@Cred,@Durac,@Semes);
+	if @@ERROR >0
+	begin 
+	rollback transaction TX
+	select 'Hubo Error' as Respuesta
+	end
+	else
+	begin 
+	commit transaction TX
+	select 'Registro exitoso' as Respuesta
+	end
+go
+
+go 
+create procedure USP_ActualizarMateria
+	@Id_Mat nvarchar(4),
+	@Nombre nvarchar(50),
+	@Cred int,
+	@Durac int,
+	@Semes int
+as 
+	begin transaction TX
+	update MATERIA set Nombre=@Nmbre, Cred=@Cred, Durac=@Durac, semes=@Semes where Id_Mat=@Id_Mat;
+	if @@ERROR >0
+	begin 
+	rollback transaction TX
+	select 'Hubo Error' as Respuesta
+	end
+	else
+	begin 
+	commit transaction TX
+	select 'Actualizacion Exitosa' as Respuesta
+	end
+go
+
+go 
+create procedure USP_EliminarMateria
+	@Id_Mat
+as 
+	begin transaction T
+	delete from MATERIA where Id_Mat=@Id_Mat;
+	if @@ERROR >0
+	begin 
+	rollback transaction TX
+	select 'Hubo Error' as Respuesta
+	end
+	else
+	begin 
+	commit transaction TX
+	select 'Eliminacion exitosa' as Respuesta
+	end
+go
+
 create procedure usp_UActualizarTotal
 AS
 BEGIN TRANSACTION TX
