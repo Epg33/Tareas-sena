@@ -1003,3 +1003,57 @@ select * from producto where gama='Ornamentales' and cantidad_en_stock>=100 orde
 
 /*16.	Devuelve un listado con todos los clientes que sean de la ciudad de Madrid y cuyo representante de ventas tenga el código de empleado 11 o 30*/
 select * from cliente where ciudad='Madrid' and codigo_empleado_rep_ventas=11 or codigo_empleado_rep_ventas=30;
+
+
+/*Consultas multitabla (Composición interna)*/
+/*Resuelva todas las consultas utilizando la sintaxis de SQL1 y SQL2. Las consultas con sintaxis de SQL2 se deben resolver con INNER JOIN y NATURAL JOIN.*/
+/*1.	Obtén un listado con el nombre de cada cliente y el nombre y apellido de su representante de ventas.*/
+select cliente.nombre_cliente, empleado.nombre, empleado.apellido1 from cliente inner join empleado on cliente.codigo_empleado_rep_ventas = empleado.codigo_empleado;
+
+/*2.	Muestra el nombre de los clientes que hayan realizado pagos junto con el nombre de sus representantes de ventas.*/
+select cliente.nombre_cliente, empleado.nombre, empleado.apellido1 from cliente inner join pago on cliente.codigo_cliente = pago.codigo_cliente inner join empleado on cliente.codigo_empleado_rep_ventas = empleado.codigo_empleado;
+
+/*3.	Muestra el nombre de los clientes que no hayan realizado pagos junto con el nombre de sus representantes de ventas.*/
+select distinct(cliente.nombre_cliente), empleado.nombre, empleado.apellido1 from cliente inner join pago on cliente.codigo_cliente not in(pago.codigo_cliente) inner join empleado on cliente.codigo_empleado_rep_ventas = empleado.codigo_empleado;
+
+/*4.	Devuelve el nombre de los clientes que han hecho pagos y el nombre de sus representantes junto con la ciudad de la oficina a la que pertenece el representante.*/
+select distinct(cliente.nombre_cliente), empleado.nombre, oficina.ciudad as 'Ciudad del empleado' from cliente inner join pago on cliente.codigo_cliente = pago.codigo_cliente inner join empleado on cliente.codigo_empleado_rep_ventas = empleado.codigo_empleado inner join oficina on empleado.codigo_oficina = oficina.codigo_oficina;
+
+/*5.	Devuelve el nombre de los clientes que no hayan hecho pagos y el nombre de sus representantes junto con la ciudad de la oficina a la que pertenece el representante.*/
+select distinct(cliente.nombre_cliente), empleado.nombre, oficina.ciudad as 'Ciudad del empleado' from cliente inner join pago on cliente.codigo_cliente not in(pago.codigo_cliente) inner join empleado on cliente.codigo_empleado_rep_ventas = empleado.codigo_empleado inner join oficina on empleado.codigo_oficina = oficina.codigo_oficina;
+
+/*6.	Lista la dirección de las oficinas que tengan clientes en Fuenlabrada.*/
+select distinct(oficina.codigo_oficina), oficina.linea_direccion1, oficina.linea_direccion2 from oficina inner join empleado on empleado.codigo_oficina = oficina.codigo_oficina inner join cliente on cliente.codigo_empleado_rep_ventas = empleado.codigo_empleado where cliente.ciudad= 'Fuenlabrada';
+
+/*7.	Devuelve el nombre de los clientes y el nombre de sus representantes junto con la ciudad de la oficina a la que pertenece el representante.*/
+select distinct(cliente.nombre_cliente), empleado.nombre, oficina.ciudad from cliente inner join pago on cliente.codigo_cliente=pago.codigo_cliente inner join empleado on cliente.codigo_empleado_rep_ventas = empleado.codigo_empleado inner join oficina on empleado.codigo_oficina = oficina.codigo_oficina;
+
+/*8.	Devuelve un listado con el nombre de los empleados junto con el nombre de sus jefes.*/
+select empleado.nombre, jefe.nombre as jefe from empleado empleado inner join empleado jefe on empleado.codigo_jefe = jefe.codigo_empleado;
+
+/*9.	Devuelve un listado que muestre el nombre de cada empleados, el nombre de su jefe y el nombre del jefe de sus jefe.*/
+select empleado.nombre, jefe.nombre as jefe, jefe_jefe.nombre as 'jefe de jefe' from empleado empleado inner join empleado jefe on empleado.codigo_jefe = jefe.codigo_empleado inner join empleado jefe_jefe on jefe.codigo_jefe = jefe_jefe.codigo_empleado;
+
+/*10.	Devuelve el nombre de los clientes a los que no se les ha entregado a tiempo un pedido.*/
+select cliente.nombre_cliente from cliente inner join pedido on pedido.codigo_cliente = cliente.codigo_cliente where pedido.fecha_entrega>pedido.fecha_esperada;
+
+/*11.	Devuelve un listado de las diferentes gamas de producto que ha comprado cada cliente.*/
+select cliente.nombre_cliente, gama_producto.gama from cliente inner join pedido on pedido.codigo_cliente = cliente.codigo_cliente inner join detalle_pedido on detalle_pedido.codigo_pedido = pedido.codigo_pedido inner join producto on producto.codigo_producto = detalle_pedido.codigo_producto inner join gama_producto on gama_producto.gama = producto.gama;
+
+
+/*Consultas multitabla (Composición externa)*/
+/*Resuelva todas las consultas utilizando las cláusulas LEFT JOIN, RIGHT JOIN, NATURAL LEFT JOIN y NATURAL RIGHT JOIN.*/
+/*1.	Devuelve un listado que muestre solamente los clientes que no han realizado ningún pago.*/
+/*2.	Devuelve un listado que muestre solamente los clientes que no han realizado ningún pedido.*/
+/*3.	Devuelve un listado que muestre los clientes que no han realizado ningún pago y los que no han realizado ningún pedido.*/
+/*4.	Devuelve un listado que muestre solamente los empleados que no tienen una oficina asociada.*/
+/*5.	Devuelve un listado que muestre solamente los empleados que no tienen un cliente asociado.*/
+/*6.	Devuelve un listado que muestre solamente los empleados que no tienen un cliente asociado junto con los datos de la oficina donde trabajan.*/
+/*7.	Devuelve un listado que muestre los empleados que no tienen una oficina asociada y los que no tienen un cliente asociado.*/
+/*8.	Devuelve un listado de los productos que nunca han aparecido en un pedido.*/
+/*9.	Devuelve un listado de los productos que nunca han aparecido en un pedido. El resultado debe mostrar el nombre, la descripción y la imagen del producto.*/
+/*10.	Devuelve las oficinas donde no trabajan ninguno de los empleados que hayan sido los representantes de ventas de algún cliente que haya realizado la compra de algún producto de la gama Frutales.*/
+/*11.	Devuelve un listado con los clientes que han realizado algún pedido pero no han realizado ningún pago.*/
+/*12.	Devuelve un listado con los datos de los empleados que no tienen clientes asociados y el nombre de su jefe asociado.*/
+
+
