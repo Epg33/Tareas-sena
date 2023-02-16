@@ -140,3 +140,99 @@ DELIMITER ;
 
 call semana (2, @dia);
 select @dia;
+
+/*1.8.2 Procedimientos con sentencias SQL*/
+/*1.	Escribe un procedimiento que reciba el nombre de un país como parámetro de entrada y realice una consulta sobre la tabla cliente para obtener todos los clientes que existen en la tabla de ese país.*/
+DELIMITER $$
+drop procedure if exists verify_pais;
+create procedure verify_pais(in pais varchar(50))
+begin 
+	select * from cliente where cliente.pais = pais;
+end
+$$
+DELIMITER ;
+
+call verify_pais('USA');
+
+
+/*2.	Escribe un procedimiento que reciba como parámetro de entrada una forma de pago, que será una cadena de caracteres (Ejemplo: PayPal, Transferencia, etc). Y devuelva como salida el pago de máximo valor realizado para esa forma de pago. Deberá hacer uso de la tabla pago de la base de datos jardineria.*/
+DELIMITER $$
+drop procedure if exists maximun_payment;
+create procedure maximun_payment(in metodo varchar(50))
+begin 
+	select * from pago where pago.forma_pago=metodo order by pago.total desc limit 1;
+end
+
+$$
+DELIMITER ;
+
+call maximun_payment('PayPal');
+
+
+/*3.	Escribe un procedimiento que reciba como parámetro de entrada una forma de pago, que será una cadena de caracteres (Ejemplo: PayPal, Transferencia, etc). Y devuelva como salida los siguientes valores teniendo en cuenta la forma de pago seleccionada como parámetro de entrada:
+•	el pago de máximo valor,
+•	el pago de mínimo valor,
+•	el valor medio de los pagos realizados,
+•	la suma de todos los pagos,
+•	el número de pagos realizados para esa forma de pago.
+Deberá hacer uso de la tabla pago de la base de datos jardineria.*/
+DELIMITER $$
+drop procedure if exists payment_operations;
+create procedure payment_operations(in metodo varchar(50), out minimo int, out maximo int, out medio int, out suma int, out pagos int)
+begin 
+	set minimo = (select min(total) from pago where pago.forma_pago=metodo );
+    set maximo = (select max(total) from pago where pago.forma_pago=metodo );
+    set medio = (select avg(total) from pago where pago.forma_pago=metodo );
+    set suma = (select sum(total) from pago where pago.forma_pago=metodo );
+    set pagos = (select count(total) from pago where pago.forma_pago=metodo );
+end
+$$
+DELIMITER ;
+
+call payment_operations('PayPal', @minimo, @maximo, @medio, @suma, @pagos);
+select @minimo as 'pago minimo', @maximo as 'pago maximo', @medio as 'promedio', @suma as 'suma de todos los pagos ', @pagos as 'cantidad de pagos realizados';
+
+/*4.Crea una base de datos llamada procedimientos que contenga una tabla llamada cuadrados. La tabla cuadrados debe tener dos columnas de tipo INT UNSIGNED, una columna llamada número y otra columna llamada cuadrado.
+Una vez creada la base de datos y la tabla deberá crear un procedimiento llamado calcular_cuadrados con las siguientes características. El procedimiento recibe un parámetro de entrada llamado tope de tipo INT UNSIGNED y calculará el valor de los cuadrados de los primeros números naturales hasta el valor introducido como parámetro. El valor del números y de sus cuadrados deberán ser almacenados en la tabla cuadrados que hemos creado previamente.
+Tenga en cuenta que el procedimiento deberá eliminar el contenido actual de la tabla antes de insertar los nuevos valores de los cuadrados que va a calcular.
+Utilice un bucle WHILE para resolver el procedimiento.*/
+create database procedimientos;
+use procedimientos;
+
+create table cuadrados (
+	numero int unsigned,
+    cuadrado int unsigned
+);
+
+DELIMITER $$
+drop procedure if exists calcular_cuadrados;
+create procedure calcular_cuadrados(in tope int unsigned)
+begin 
+	declare counter int default 0;
+	delete from cuadrados;
+	while counter < tope do 
+		insert into cuadrados(numero, cuadrado) values (counter, counter*counter);
+		set counter = counter +1;
+	end while;
+end
+$$
+DELIMITER ;
+
+call calcular_cuadrados(10);
+select * from cuadrados;
+/*5.	Utilice un bucle REPEAT para resolver el procedimiento del ejercicio anterior.
+6.	Utilice un bucle LOOP para resolver el procedimiento del ejercicio anterior.
+7.	Crea una base de datos llamada procedimientos que contenga una tabla llamada ejercicio. La tabla debe tener una única columna llamada número y el tipo de dato de esta columna debe ser INT UNSIGNED.
+Una vez creada la base de datos y la tabla deberá crear un procedimiento llamado calcular_números con las siguientes características. El procedimiento recibe un parámetro de entrada llamado valor_inicial de tipo INT UNSIGNED y deberá almacenar en la tabla ejercicio toda la secuencia de números desde el valor inicial pasado como entrada hasta el 1.
+Tenga en cuenta que el procedimiento deberá eliminar el contenido actual de las tablas antes de insertar los nuevos valores.
+Utilice un bucle WHILE para resolver el procedimiento.
+8.	Utilice un bucle REPEAT para resolver el procedimiento del ejercicio anterior.
+9.	Utilice un bucle LOOP para resolver el procedimiento del ejercicio anterior.
+10.	Crea una base de datos llamada procedimientos que contenga una tabla llamada pares y otra tabla llamada impares. Las dos tablas deben tener única columna llamada número y el tipo de dato de esta columna debe ser INT UNSIGNED.
+Una vez creada la base de datos y las tablas deberá crear un procedimiento llamado calcular_pares_impares con las siguientes características. El procedimiento recibe un parámetro de entrada llamado tope de tipo INT UNSIGNED y deberá almacenar en la tabla pares aquellos números pares que existan entre el número 1 el valor introducido como parámetro. Habrá que realizar la misma operación para almacenar los números impares en la tabla impares.
+Tenga en cuenta que el procedimiento deberá eliminar el contenido actual de las tablas antes de insertar los nuevos valores.
+Utilice un bucle WHILE para resolver el procedimiento.
+11.	Utilice un bucle REPEAT para resolver el procedimiento del ejercicio anterior.
+12.	Utilice un bucle LOOP para resolver el procedimiento del ejercicio anterior.*/
+use jardineria;
+select * from cliente

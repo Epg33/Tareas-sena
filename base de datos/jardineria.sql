@@ -103,7 +103,7 @@ CREATE TABLE pago (
   FOREIGN KEY (codigo_cliente) REFERENCES cliente (codigo_cliente)
 );
 
-
+select * from pago;
 /***************************/
 /***********DATOS***********/
 /***************************/
