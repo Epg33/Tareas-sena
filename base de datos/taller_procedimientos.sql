@@ -211,7 +211,7 @@ drop procedure if exists calcular_cuadrados;
 create procedure calcular_cuadrados(in tope int unsigned)
 begin 
 	declare counter int default 0;
-	delete from cuadrados where cuadrados.numero>=0;
+	delete from cuadrados;
 	while counter < tope do 
 		insert into cuadrados(numero, cuadrado) values (counter, counter*counter);
 		set counter = counter +1;
@@ -230,6 +230,7 @@ DELIMITER $$
 drop procedure if exists calcular_cuadrados;
 create procedure calcular_cuadrados(in tope int unsigned)
 begin
+	delete from cuadrados;
 	declare counter int default 0;
     set counter = 0;
         repeat 
@@ -249,23 +250,16 @@ DELIMITER $$
 drop procedure if exists calcular_cuadrados;
 create procedure calcular_cuadrados(in tope int unsigned)
 begin
-declare counter int default 0;
-declare str varchar (100);
-set counter = 0;
-set str = '';
+	delete from cuadrados;
+	declare counter int default 0;
 	label1: loop
-		  insert into cuadrados(numero, cuadrado) values (counter, counter*counter);   
-        if counter >= 10 then 
-        leave label1;
-        end if;
-        
-        set str = concat(str,counter,',');
+		insert into cuadrados(numero, cuadrado) values (counter, counter*counter);   
         set counter = counter + 1;
-        iterate label1;
-   
+        if counter >= tope then 
+			leave label1;
+        end if;        
 	end loop;
-   
-    end;
+end;
 $$
 
 DELIMITER ;
@@ -278,13 +272,148 @@ select * from cuadrados;
 Una vez creada la base de datos y la tabla deberá crear un procedimiento llamado calcular_números con las siguientes características. El procedimiento recibe un parámetro de entrada llamado valor_inicial de tipo INT UNSIGNED y deberá almacenar en la tabla ejercicio toda la secuencia de números desde el valor inicial pasado como entrada hasta el 1.
 Tenga en cuenta que el procedimiento deberá eliminar el contenido actual de las tablas antes de insertar los nuevos valores.
 Utilice un bucle WHILE para resolver el procedimiento.*/
-/*8.	Utilice un bucle REPEAT para resolver el procedimiento del ejercicio anterior.
-9.	Utilice un bucle LOOP para resolver el procedimiento del ejercicio anterior.
-10.	Crea una base de datos llamada procedimientos que contenga una tabla llamada pares y otra tabla llamada impares. Las dos tablas deben tener única columna llamada número y el tipo de dato de esta columna debe ser INT UNSIGNED.
+use procedimientos;
+create table ejercicio(
+	numero int unsigned
+);
+
+DELIMITER $$
+drop procedure if exists calcular_numeros;
+create procedure calcular_numeros(in valor_inicial int unsigned)
+begin
+	declare counter int default valor_inicial;
+    while counter >= 1 do 
+		insert into ejercicio(numero) values (counter);
+		set counter = counter - 1;
+	end while;
+end
+$$
+DELIMITER ;
+
+call calcular_numeros(10);
+select * from ejercicio;
+
+/*8.	Utilice un bucle REPEAT para resolver el procedimiento del ejercicio anterior.*/
+DELIMITER $$
+drop procedure if exists calcular_numeros;
+create procedure calcular_numeros(in valor_inicial int unsigned)
+begin
+	declare counter int default valor_inicial;
+    repeat
+		insert into ejercicio(numero) values (counter);
+		set counter = counter - 1;
+	until counter <= 0 end repeat;
+end
+$$
+DELIMITER ;
+
+call calcular_numeros(10);
+select * from ejercicio;
+
+/*9.	Utilice un bucle LOOP para resolver el procedimiento del ejercicio anterior.*/
+DELIMITER $$
+drop procedure if exists calcular_numeros;
+create procedure calcular_numeros(in valor_inicial int unsigned)
+begin
+	declare counter int default valor_inicial;
+    labelname: loop
+		insert into ejercicio(numero) values (counter);
+		set counter = counter - 1;
+        if counter <=0 then leave labelname;
+        end if;
+	end loop;
+end
+$$
+DELIMITER ;
+
+call calcular_numeros(10);
+select * from ejercicio;
+
+/*10.	Crea una base de datos llamada procedimientos que contenga una tabla llamada pares y otra tabla llamada impares. Las dos tablas deben tener única columna llamada número y el tipo de dato de esta columna debe ser INT UNSIGNED.
 Una vez creada la base de datos y las tablas deberá crear un procedimiento llamado calcular_pares_impares con las siguientes características. El procedimiento recibe un parámetro de entrada llamado tope de tipo INT UNSIGNED y deberá almacenar en la tabla pares aquellos números pares que existan entre el número 1 el valor introducido como parámetro. Habrá que realizar la misma operación para almacenar los números impares en la tabla impares.
 Tenga en cuenta que el procedimiento deberá eliminar el contenido actual de las tablas antes de insertar los nuevos valores.
-Utilice un bucle WHILE para resolver el procedimiento.
-11.	Utilice un bucle REPEAT para resolver el procedimiento del ejercicio anterior.
-12.	Utilice un bucle LOOP para resolver el procedimiento del ejercicio anterior.*/
-use jardineria;
-select * from cliente
+Utilice un bucle WHILE para resolver el procedimiento.*/
+create table pares(
+	numero int unsigned
+);
+
+create table impares(
+	numero int unsigned
+);
+
+DELIMITER $$
+drop procedure if exists calcular_pares_impares;
+create procedure calcular_pares_impares(in tope int unsigned)
+begin
+	delete from pares;
+    delete from impares;
+	declare counter int default 0;
+    while counter <= tope do
+		if counter % 2 = 0 then
+			insert into pares(numero) values (counter);
+		else 
+			insert into impares(numero) values (counter);
+		end if;
+        set counter = counter + 1; 
+    end while;
+end
+
+$$
+DELIMITER ;
+
+call calcular_pares_impares(10);
+select * from pares;
+select * from impares;
+
+/*11.	Utilice un bucle REPEAT para resolver el procedimiento del ejercicio anterior.*/
+
+DELIMITER $$
+drop procedure if exists calcular_pares_impares;
+create procedure calcular_pares_impares(in tope int unsigned)
+begin
+	delete from pares;
+	delete from impares;
+	declare counter int default 0;
+    repeat
+		if counter % 2 = 0 then
+			insert into pares(numero) values (counter);
+		else 
+			insert into impares(numero) values (counter);
+		end if;
+        set counter = counter + 1; 
+    until counter >= tope end repeat;
+end
+
+$$
+DELIMITER ;
+
+call calcular_pares_impares(10);
+select * from pares;
+select * from impares;
+
+/*12.	Utilice un bucle LOOP para resolver el procedimiento del ejercicio anterior.*/
+DELIMITER $$
+drop procedure if exists calcular_pares_impares;
+create procedure calcular_pares_impares(in tope int unsigned)
+begin
+	delete from pares;
+    delete from impares;
+	declare counter int default 0;
+    labelname: loop
+		if counter % 2 = 0 then
+			insert into pares(numero) values (counter);
+		else 
+			insert into impares(numero) values (counter);
+		end if;
+        set counter = counter + 1; 
+        if counter >= tope then leave labelname;
+        end if;
+    end loop;
+end
+
+$$
+DELIMITER ;
+
+call calcular_pares_impares(10);
+select * from pares;
+select * from impares;
