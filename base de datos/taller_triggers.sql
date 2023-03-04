@@ -37,7 +37,7 @@ create table alumnos (
 
 select * from alumnos;
 
-insert into alumnos(id, nombre, apellido1, apellido2, nota) values (6, 'alex', 'lopez', 'lopez', 3.4);
+insert into alumnos(id, nombre, apellido1, apellido2, nota) values (7, 'alex', 'lopez', 'lopez', 5);
 
 DELIMITER $$
 drop trigger if exists trigger_check_nota_before_insert;
@@ -70,7 +70,7 @@ declare new_note real default 0;
 end
 $$ 
 DELIMITER ;
-update alumnos set nota=-5 where id=1;
+update alumnos set nota=-5 where id=7;
 
 
 /*
@@ -118,11 +118,13 @@ create table alumnos2(
     apellido2 varchar(30) not null,
     email varchar(30)
 );
+
+
 select * from alumnos2;
-insert into alumnos2(nombre, apellido1, apellido2, email) values ('alex', 'lopez', 'lopez', 'jijijiolas@gmail.com');
+insert into alumnos2(nombre, apellido1, apellido2) values ('alex', 'lopez', 'lopez');
 
 DELIMITER $$
-/*drop procedure if exists crear_email;*/
+
 create procedure crear_email(in nombre varchar(30), in apellido1 varchar(30), in apellido2 varchar(30), in dominio varchar(30), out email varchar(30))
 begin
 	set email = concat(substring(nombre, 1, 1), substring(apellido1, 1, 3), substring(apellido2, 1, 3), '@', dominio);
@@ -132,7 +134,6 @@ DELIMITER ;
 
 
 DELIMITER $$
-
 create trigger trigger_crear_email_before_insert before insert on alumnos2 for each row begin
 	call crear_email(new.nombre, new.apellido1, new.apellido2, 'gmail.com', @email);
     if new.email is not null then
@@ -167,9 +168,11 @@ create table log_cambios_email(
     id_alumno int unsigned not null,
     fecha_hora datetime default now(),
     old_email varchar(30) not null,
-    new_email varchar(30) not null,
-    foreign key(id_alumno) references alumnos2(id)
+    new_email varchar(30) not null
 );
+
+select * from log_cambios_email;
+update alumnos2 set email='holi@gmail.com' where id=2;
 
 DELIMITER $$
 create trigger trigger_guardar_email_after_update after update on alumnos2 for each row begin 
@@ -178,8 +181,11 @@ end
 $$
 DELIMITER ;
 
+delete from alumnos2 where id=2;
 
+select * from log_alumnos_eliminados;
 
+drop table log_alumnos_eliminados;
 create table log_alumnos_eliminados(
 	id int primary key auto_increment,
     id_alumno int unsigned,
@@ -187,13 +193,13 @@ create table log_alumnos_eliminados(
     nombre varchar(30) not null,
     apellido1 varchar(30) not null,
     apellido2 varchar(30) not null,
-    email varchar(30) not null,
-    foreign key(id_alumno) references alumnos2(id)
+    email varchar(30) not null
 );
 
+drop trigger trigger_guardar_alumnos_eliminados;
 DELIMITER $$
 create trigger trigger_guardar_alumnos_eliminados after delete on alumnos2 for each row begin 
-	insert into log_alumnos_eliminados(id_alumnos, nombre, apellido1, apellido2, email) values ((select id from alumnos2 where id=old.id), old.nombre, old.apellido1, old.apellido2, old.email);
+	insert into log_alumnos_eliminados(id_alumno, nombre, apellido1, apellido2, email) values ((select id from alumnos2 where id=old.id), old.nombre, old.apellido1, old.apellido2, old.email);
 end
 $$
 DELIMITER ;

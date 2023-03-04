@@ -250,8 +250,8 @@ DELIMITER $$
 drop procedure if exists calcular_cuadrados;
 create procedure calcular_cuadrados(in tope int unsigned)
 begin
+    declare counter int default 0;
 	delete from cuadrados;
-	declare counter int default 0;
 	label1: loop
 		insert into cuadrados(numero, cuadrado) values (counter, counter*counter);   
         set counter = counter + 1;
@@ -345,9 +345,9 @@ DELIMITER $$
 drop procedure if exists calcular_pares_impares;
 create procedure calcular_pares_impares(in tope int unsigned)
 begin
+	declare counter int default 0;
 	delete from pares;
     delete from impares;
-	declare counter int default 0;
     while counter <= tope do
 		if counter % 2 = 0 then
 			insert into pares(numero) values (counter);
@@ -371,9 +371,9 @@ DELIMITER $$
 drop procedure if exists calcular_pares_impares;
 create procedure calcular_pares_impares(in tope int unsigned)
 begin
+	declare counter int default 0;
 	delete from pares;
 	delete from impares;
-	declare counter int default 0;
     repeat
 		if counter % 2 = 0 then
 			insert into pares(numero) values (counter);
@@ -396,9 +396,9 @@ DELIMITER $$
 drop procedure if exists calcular_pares_impares;
 create procedure calcular_pares_impares(in tope int unsigned)
 begin
+	declare counter int default 0;
 	delete from pares;
     delete from impares;
-	declare counter int default 0;
     labelname: loop
 		if counter % 2 = 0 then
 			insert into pares(numero) values (counter);
